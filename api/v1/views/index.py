@@ -14,8 +14,9 @@ def status():
 def stats():
     """ retrieves the number of each objects by type """
     from models import storage
-    classes = {"Amenity": "amenities", "City": "cities", "Place": "places",
-               "Review": "reviews", "State": "states", "User": "users"}
+    classes = {'amenities': 'Amenity', 'cities': 'City', 'places': 'Place',
+               'reviews': 'Review', 'states': 'State', 'users': 'User'}
+
     for key, value in classes.items():
-        classes[key] = storage.count(key)
+        classes[key] = storage.count(value)
     return jsonify(classes)
