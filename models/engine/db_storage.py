@@ -82,7 +82,7 @@ class DBStorage:
             return None
         if isinstance(cls, str):
             cls = classes.get(cls, None)
-        if cls not in classes.values():
+        if not cls or cls not in classes.values():
             return None
         result = self.__session.query(cls).filter_by(id=_id).first()
         return result
