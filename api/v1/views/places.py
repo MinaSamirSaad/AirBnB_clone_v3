@@ -9,7 +9,6 @@ from flask import jsonify
 def get_places(city_id):
     """ returns a JSON: {"status": "OK"}"""
     from models import storage
-    return jsonify({"error": "Not found"}), 404
     city = storage.get("City", city_id)
     if city is None:
         return jsonify({"error": "Not found"}), 404
