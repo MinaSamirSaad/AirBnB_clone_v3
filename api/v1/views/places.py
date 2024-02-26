@@ -21,15 +21,10 @@ def get_places(city_id):
 def get_place(place_id):
     """ returns a JSON: {"status": "OK"}"""
     from models import storage
-    # place = storage.get("Place", place_id)
-    # if place is None:
-    #     return jsonify({"error": "Not found"}), 404
-    # return jsonify(place.to_dict())
-    places = storage.all("Place")
-    for place in places.values():
-        if place.id == place_id:
-            return jsonify(place.to_dict())
-    return jsonify({"error": "Not found"}), 404
+    place = storage.get("Place", place_id)
+    if place is None:
+        return jsonify({"error": "Not found"}), 404
+    return jsonify(place.to_dict())
 
 
 @app_views.route('/places/<place_id>',
@@ -37,16 +32,12 @@ def get_place(place_id):
 def delete_place(place_id):
     """ returns a JSON: {"status": "OK"}"""
     from models import storage
-    # place = storage.get("Place", place_id)
-    # if place is None:
-    #     return jsonify({"error": "Not found"}), 404
-    place = storage.all("Place")
-    for place in place.values():
-        if place.id == place_id:
-            place.delete()
-            storage.save()
-            return jsonify({}), 200
-    return jsonify({"error": "Not found"}), 404
+    place = storage.get("Place", place_id)
+    if place is None:
+        return jsonify({"error": "Not found"}), 404
+    place.delete()
+    storage.save()
+    return jsonify({}), 200
 
 
 @app_views.route('/cities/<city_id>/places',
