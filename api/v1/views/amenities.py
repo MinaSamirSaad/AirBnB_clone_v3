@@ -67,8 +67,8 @@ def put_amenity(amenity_id):
     amenities = storage.all("Amenity")
     for amenity in amenities.values():
         if amenity.id == amenity_id:
-            # if data.get('name') is None:
-            #     return jsonify({"error": "Missing name"}), 400
+            if data.get('name') is None:
+                return jsonify({"error": "Missing name"}), 400
             amenity.name = data['name']
             amenity.save()
             return jsonify(amenity.to_dict()), 200
