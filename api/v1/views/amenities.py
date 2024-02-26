@@ -67,7 +67,7 @@ def put_amenity(amenity_id):
     amenities = storage.all("Amenity")
     for amenity in amenities.values():
         if amenity.id == amenity_id:
-            amenity.name = data['name']
+            # amenity.name = data['name']
             amenity.save()
             return jsonify(amenity.to_dict()), 200
     return jsonify({"error": "Not found"}), 404
