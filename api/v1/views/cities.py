@@ -57,7 +57,8 @@ def post_city(state_id):
             city.state_id = state_id
             city.save()
             return jsonify(city.to_dict()), 201
-    return jsonify(), 404
+    return jsonify({"error": "Not found"}), 404
+    # return jsonify(), 404
 
 
 @app_views.route('cities/<city_id>', methods=['PUT'], strict_slashes=False)
