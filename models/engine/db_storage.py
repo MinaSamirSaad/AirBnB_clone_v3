@@ -78,6 +78,12 @@ class DBStorage:
 
     def get(self, cls, id):
         '''get an object by class and id'''
+        if cls is None or id is None:
+            return None
+        if type(cls) == str:
+            cls = classes[cls]
+        if cls not in classes.values():
+            return None
         result = self.__session.query(cls).filter_by(id=id).first()
         return result
 
