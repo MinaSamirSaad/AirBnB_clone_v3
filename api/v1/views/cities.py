@@ -3,12 +3,15 @@
 from api.v1.views import app_views
 from flask import jsonify
 
-@app_views.route('states/<state_id>/cities', methods=['GET'], strict_slashes=False)
+
+@app_views.route('states/<state_id>/cities',
+                 methods=['GET'], strict_slashes=False)
 def get_cities(id):
     """ returns a JSON: {"status": "OK"}"""
     from models import storage
     cities = storage.all("City")
-    return jsonify([city.to_dict() for city in cities.values() if city.state_id == id])
+    list = [city.to_dict() for city in cities.values() if city.state_id == id]
+    return jsonify(list)
 
 
 @app_views.route('cities/<city_id>', methods=['GET'], strict_slashes=False)
@@ -35,7 +38,8 @@ def delete_city(city_id):
     return jsonify({"error": "Not found"}), 404
 
 
-@app_views.route('states/<state_id>/cities', methods=['POST'], strict_slashes=False)
+@app_views.route('states/<state_id>/cities',
+                 methods=['POST'], strict_slashes=False)
 def post_city(id):
     """ returns a JSON: {"status": "OK"}"""
     from models import storage
@@ -48,7 +52,7 @@ def post_city(id):
     from models.city import City
     states = storage.all("State")
     for value in states.values():
-        if value.id == id: 
+        if value.id == id:
             city = City(**data)
             city.state_id = id
             city.save()
