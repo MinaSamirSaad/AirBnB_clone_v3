@@ -13,7 +13,8 @@ def get_amenities():
     return jsonify(list)
 
 
-@app_views.route('amenities/<amenity_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('amenities/<amenity_id>',
+                 methods=['GET'], strict_slashes=False)
 def get_amenity(amenity_id):
     """ returns a JSON: {"status": "OK"}"""
     from models import storage
@@ -24,7 +25,8 @@ def get_amenity(amenity_id):
     return jsonify({"error": "Not found"}), 404
 
 
-@app_views.route('amenities/<amenity_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('amenities/<amenity_id>',
+                 methods=['DELETE'], strict_slashes=False)
 def delete_amenity(amenity_id):
     """ returns a JSON: {"status": "OK"}"""
     from models import storage
@@ -53,7 +55,8 @@ def post_amenity():
     return jsonify(amenity.to_dict()), 201
 
 
-@app_views.route('amenities/<amenity_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('amenities/<amenity_id>',
+                 methods=['PUT'], strict_slashes=False)
 def put_amenity(amenity_id):
     """ returns a JSON: {"status": "OK"}"""
     from models import storage
@@ -63,7 +66,7 @@ def put_amenity(amenity_id):
         return jsonify({"error": "Not a JSON"}), 400
     amenities = storage.all("Amenity")
     for amenity in amenities.values():
-        if amenity.id == amenity
+        if amenity.id == amenity_id:
             amenity.name = data['name']
             amenity.save()
             return jsonify(amenity.to_dict()), 200
