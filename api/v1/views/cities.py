@@ -6,11 +6,11 @@ from flask import jsonify
 
 @app_views.route('states/<state_id>/cities',
                  methods=['GET'], strict_slashes=False)
-def get_cities(state_id):
+def get_cities(id):
     """ returns a JSON: {"status": "OK"}"""
     from models import storage
     cities = storage.all("City")
-    list = [city.to_dict() for city in cities.values() if city.state_id == state_id]
+    list = [city.to_dict() for city in cities.values() if city.state_id == id]
     return jsonify(list)
 
 
