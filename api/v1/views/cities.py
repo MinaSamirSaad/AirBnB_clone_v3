@@ -6,11 +6,11 @@ from flask import jsonify
 
 @app_views.route('states/<state_id>/cities',
                  methods=['GET'], strict_slashes=False)
-def get_cities(id):
+def get_cities(state_id):
     """ returns a JSON: {"status": "OK"}"""
     from models import storage
     cities = storage.all("City")
-    list = [city.to_dict() for city in cities.values() if city.state_id == id]
+    list = [city.to_dict() for city in cities.values() if city.state_id == state_id]
     return jsonify(list)
 
 
@@ -40,7 +40,7 @@ def delete_city(city_id):
 
 @app_views.route('states/<state_id>/cities',
                  methods=['POST'], strict_slashes=False)
-def post_city(id):
+def post_city(state_id):
     """ returns a JSON: {"status": "OK"}"""
     from models import storage
     from flask import request
@@ -52,9 +52,9 @@ def post_city(id):
     from models.city import City
     states = storage.all("State")
     for value in states.values():
-        if value.id == id:
+        if value.id == state_id:
             city = City(**data)
-            city.state_id = id
+            city.state_id = state_id
             city.save()
             return jsonify(city.to_dict()), 201
     return jsonify({"error": "Not found"}), 404
