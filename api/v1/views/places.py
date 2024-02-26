@@ -21,10 +21,15 @@ def get_places(city_id):
 def get_place(place_id):
     """ returns a JSON: {"status": "OK"}"""
     from models import storage
-    place = storage.get("Place", place_id)
-    if place is None:
-        return jsonify({"error": "Not found"}), 404
-    return jsonify(place.to_dict())
+    # place = storage.get("Place", place_id)
+    # if place is None:
+    #     return jsonify({"error": "Not found"}), 404
+    # return jsonify(place.to_dict())
+    places = storage.all("Place")
+    for place in places.values():
+        if place.id == place_id:
+            return jsonify(place.to_dict())
+    return jsonify({"error": "Not found"}), 404
 
 
 @app_views.route('/places/<place_id>',

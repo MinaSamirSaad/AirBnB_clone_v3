@@ -78,6 +78,8 @@ class DBStorage:
 
     def get(self, cls, _id):
         '''retrieve one object'''
+        if cls is None or _id is None:
+            return None
         if cls in classes:
             return self.__session.query(classes[cls]).get(_id)
         if cls in classes.values():
