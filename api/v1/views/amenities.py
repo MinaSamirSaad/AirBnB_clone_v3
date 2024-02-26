@@ -69,7 +69,7 @@ def put_amenity(amenity_id):
         if amenity.id == amenity_id:
             # if data.get('name') is None:
             #     return jsonify({"error": "Missing name"}), 400
-            # amenity.name = data['name']
+            amenity.name = data['name']
             amenity.save()
             return jsonify(amenity.to_dict()), 200
     return jsonify({"error": "Not found"}), 404
