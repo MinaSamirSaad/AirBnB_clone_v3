@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ Initialize the blueprint app_views """
 from api.v1.views import app_views
-from flask import jsonify
+from flask import abort, jsonify
 
 
 @app_views.route('states', methods=['GET'], strict_slashes=False)
@@ -20,7 +20,7 @@ def get_state(state_id):
     for state in states.values():
         if state.id == state_id:
             return jsonify(state.to_dict())
-    return jsonify({"error": "Not found"}), 404
+    abort(404)
 
 
 @app_views.route('states/<state_id>', methods=['DELETE'], strict_slashes=False)
@@ -33,7 +33,7 @@ def delete_state(state_id):
             state.delete()
             storage.save()
             return jsonify({}), 200
-    return jsonify({"error": "Not found"}), 404
+    abort(404)
 
 
 @app_views.route('states', methods=['POST'], strict_slashes=False)
@@ -68,4 +68,4 @@ def put_state(state_id):
                     setattr(state, key, value)
             state.save()
             return jsonify(state.to_dict()), 200
-    return jsonify({"error": "Not found"}), 404
+    abort(404)
