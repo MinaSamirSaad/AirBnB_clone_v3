@@ -7,13 +7,16 @@ from models import storage
 
 @app_views.route('states/<state_id>/cities',
                  methods=['GET'], strict_slashes=False)
-def get_cities(_id):
+def get_cities(state_id):
     """ returns a JSON: {"status": "OK"}"""
     cities = storage.all("City")
     list_states = storage.all('State')
-    if "State.{}".format(_id) not in list_states:
+    if "State.{}".format(state_id) not in list_states:
         abort(404)
-    lis = [city.to_dict() for city in cities.values() if city.state_id == _id]
+    lis = []
+    for city in cities.values():
+        if city.state_id == state_id:
+            lis.append(city.to_dict())
     return jsonify(lis)
 
 
