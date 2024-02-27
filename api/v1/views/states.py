@@ -4,6 +4,7 @@ from api.v1.views import app_views
 from flask import abort, jsonify, request
 from models import storage
 
+
 @app_views.route('states', methods=['GET'], strict_slashes=False)
 def get_states():
     """ returns a JSON: {"status": "OK"}"""
