@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ amenity api module """
 from api.v1.views import app_views
-from flask import jsonify
+from flask import abort, jsonify
 
 
 @app_views.route('amenities', methods=['GET'], strict_slashes=False)
@@ -22,7 +22,7 @@ def get_amenity(amenity_id):
     for amenity in amenities.values():
         if amenity.id == amenity_id:
             return jsonify(amenity.to_dict())
-    return jsonify({"error": "Not found"}), 404
+    abort(404)
 
 
 @app_views.route('amenities/<amenity_id>',
@@ -36,7 +36,7 @@ def delete_amenity(amenity_id):
             amenity.delete()
             storage.save()
             return jsonify({}), 200
-    return jsonify({"error": "Not found"}), 404
+    abort(404)
 
 
 @app_views.route('amenities', methods=['POST'], strict_slashes=False)
@@ -70,4 +70,4 @@ def put_amenity(amenity_id):
             amenity.name = data['name']
             amenity.save()
             return jsonify(amenity.to_dict()), 200
-    return jsonify({"error": "Not found"}), 404
+    abort(404)
